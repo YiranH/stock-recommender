@@ -20,7 +20,7 @@ Deterministic ranking lives outside the model. LLM only parses preferences + wri
 ⸻
 
 Architecture (small & sharp)
-	•	HTTP: Hono (src/server.ts) → deploy anywhere (Vercel, Fly, local).
+	•	HTTP: Hono (api/server.ts) → deploy anywhere (Vercel, Fly, local).
 	•	LLM: Vercel AI SDK:
 	•	generateObject — turn text → preference JSON
 	•	streamText (or generateText) — write explanations/rationales
@@ -157,7 +157,7 @@ System:
 
 Modules & files
 
-src/
+api/
   server.ts                # Hono app, defines POST /v1/recommend
   llm/
     models.ts              # AI SDK setup (provider, model)

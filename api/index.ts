@@ -10,10 +10,11 @@ import { requireApiKey } from "./middleware/require-api-key.js";
 import { RecommendBody, Recommendation } from "../schemas/portfolio.js";
 
 const app = new Hono();
+const api = app.basePath("/api");
 
-app.use("/v1/*", requireApiKey);
+api.use("/v1/*", requireApiKey);
 
-app.post("/v1/recommend", async (c) => {
+api.post("/v1/recommend", async (c) => {
   const body = await c.req.json();
   const parsed = RecommendBody.safeParse(body);
   if (!parsed.success) {
@@ -94,9 +95,14 @@ docs.doc("/openapi.json", (c) => ({
   }
 }));
 
-docs.get("/docs", swaggerUI({ url: "/openapi.json" }));
+docs.get(
+  "/docs",
+  swaggerUI({
+    url: "/api/openapi.json"
+  })
+);
 
-app.route("/", docs);
+api.route("/", docs);
 
 export const config = {
   runtime: "nodejs"
