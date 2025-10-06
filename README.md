@@ -81,12 +81,11 @@ pnpm lint
 ## Project Structure
 
 ```
-api/
-  _auth.ts           // x-api-key middleware
-  openapi.ts         // OpenAPI spec + Swagger UI
-  v1/recommend.ts    // LLM-backed portfolio recommendation endpoint
+src/
+  index.ts                         // Hono app + routes + OpenAPI wiring
+  middleware/require-api-key.ts    // x-api-key middleware
 schemas/
-  portfolio.ts       // Shared Zod schemas for request/response
+  portfolio.ts                     // Shared Zod schemas for request/response
 ```
 
 ## Troubleshooting
