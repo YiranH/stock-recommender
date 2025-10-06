@@ -4,10 +4,10 @@
   "type": "module",
   "version": "0.1.0",
   "scripts": {
-    "dev": "tsx app/dev.ts",
+    "dev": "tsx src/dev.ts",
     "vercel:dev": "vercel dev",
     "build": "echo 'Vercel builds functions per file; no bundling needed'",
-    "start": "tsx app/dev.ts",
+    "start": "tsx src/dev.ts",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

@@ -14,7 +14,7 @@
     ]
   },
   "include": [
-    "api/**/*.ts",
+    "src/**/*.ts",
     "schemas/**/*.ts"
   ]
 }

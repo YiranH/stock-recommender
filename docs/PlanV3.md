@@ -53,7 +53,7 @@ RATE_LIMIT_RPM=60
 ## C. Folder layout (API-only)
 
 ```
-/app
+/src
   /openapi.ts         # OpenAPI + Swagger routes (/openapi.json, /docs)
   /v1
     /recommend.ts     # POST /v1/recommend (auth + LLM call)
@@ -61,7 +61,7 @@ RATE_LIMIT_RPM=60
   portfolio.ts        # zod schemas for input/output
 ```
 
-> Each file under `/app` becomes a Vercel Function. Default runtime: Node.js.
+> Each file under `/src` becomes a Vercel Function. Default runtime: Node.js.
 
 ---
 
@@ -330,7 +330,7 @@ curl -X POST https://your-project.vercel.app/v1/recommend   -H "x-api-key: $API_
 If you want to *skip Hono* and go pure Next.js, this is equivalent:
 
 ```
-app/
+src/
   api/
     v1/
       recommend/
@@ -342,8 +342,8 @@ app/
 ```
 
 - Use the same schemas & `generateObject` call.  
-- In `/app/api/openapi/route.ts`, generate the spec from your Zod schemas using `@asteasolutions/zod-to-openapi` and return JSON.  
-- For `/app/api/docs/route.ts`, embed Swagger UI HTML (or use Scalar/Redoc).  
+- In `/src/api/openapi/route.ts`, generate the spec from your Zod schemas using `@asteasolutions/zod-to-openapi` and return JSON.  
+- For `/src/api/docs/route.ts`, embed Swagger UI HTML (or use Scalar/Redoc).  
 - Add a simple `x-api-key` check at the top of each route.
 
 ---
