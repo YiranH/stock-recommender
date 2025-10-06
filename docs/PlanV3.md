@@ -53,7 +53,7 @@ RATE_LIMIT_RPM=60
 ## C. Folder layout (API-only)
 
 ```
-/api
+/app
   /openapi.ts         # OpenAPI + Swagger routes (/openapi.json, /docs)
   /v1
     /recommend.ts     # POST /v1/recommend (auth + LLM call)
@@ -61,7 +61,7 @@ RATE_LIMIT_RPM=60
   portfolio.ts        # zod schemas for input/output
 ```
 
-> Each file under `/api` becomes a Vercel Function. Default runtime: Node.js.
+> Each file under `/app` becomes a Vercel Function. Default runtime: Node.js.
 
 ---
 

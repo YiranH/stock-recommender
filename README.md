@@ -87,7 +87,7 @@ pnpm lint
 ## Project Structure
 
 ```
-api/
+app/
   index.ts                         // Hono app + routes + OpenAPI wiring
   middleware/require-api-key.ts    // x-api-key middleware
 schemas/
