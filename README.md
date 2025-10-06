@@ -30,11 +30,17 @@ Minimal Hono-based API that uses the Vercel AI SDK with Google Gemini to produce
 
 ## Local Development
 
-Run the development server (uses `vc dev` under the hood):
+Run the local Node server (no Vercel CLI recursion):
 ```bash
 pnpm dev
 ```
 Requests are served from `http://localhost:3000` by default.
+
+If you specifically want to emulate Vercel Functions locally, run:
+```bash
+pnpm vercel:dev
+```
+Note: Ensure your Vercel Project Settings → Development Command is not set to `pnpm dev` or `vercel dev` to avoid recursive invocation.
 
 ### Linting / Typecheck
 ```bash

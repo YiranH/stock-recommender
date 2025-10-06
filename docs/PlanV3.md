@@ -67,27 +67,84 @@ RATE_LIMIT_RPM=60
 
 ## D. Schemas
 
+### Request body fields (plain English)
+
+- `objective` (string) — Trimmed, 3–160 characters describing what you’re trying to achieve. Examples: "long-term growth", "preserve capital", "income".
+- `risk_tolerance` (`low | medium | high`, default `medium`) — How comfortable you are with market ups and downs.
+  - `low` → steadier ride, more bonds/cash, broad ETFs.
+  - `medium` → balanced mix of stocks/bonds.
+  - `high` → more stocks/tech tilt, bigger drawdowns acceptable.
+- `horizon_years` (integer, default `5`) — 1–50 years you expect to keep the money invested before needing it.
+  - Short (1–3 yrs) → safer mix, more bonds/cash.
+  - Medium (4–10 yrs) → balanced.
+  - Long (10+ yrs) → more equities OK.
+- `constraints` (object, optional) — Rules the recommender must respect.
+  - `constraints.exclude` (string[]) — 1–20 trimmed entries to avoid (tickers or themes). Examples: `["crypto", "TSLA", "energy"]`.
+  - `constraints.max_single_weight` (number) — 1–100 cap for any single position as a percent of the portfolio. Example: `35` → no holding above 35% weight.
+
 ```ts
 // /schemas/portfolio.ts
 import { z } from "zod";
 
-export const Position = z.object({
-  symbol: z.string(),
-  name: z.string(),
-  asset_class: z.enum(["ETF","Stock","Bond","Cash","Other"]),
-  weight: z.number().min(0).max(100),
-  rationale: z.string().max(600)
-});
+export const Position = z
+  .object({
+    symbol: z.string(),
+    name: z.string(),
+    asset_class: z.enum(["ETF","Stock","Bond","Cash","Other"]),
+    weight: z.number().min(0).max(100),
+    rationale: z.string().max(600)
+  })
+  .strict();
 
-export const RecommendBody = z.object({
-  objective: z.string().describe("User's investment objective"),
-  risk_tolerance: z.enum(["low","medium","high"]).default("medium"),
-  horizon_years: z.number().int().min(1).max(50).default(5),
-  constraints: z.object({
-    exclude: z.array(z.string()).optional(),
-    max_single_weight: z.number().optional()
-  }).optional()
-});
+const RecommendConstraints = z
+  .object({
+    exclude: z
+      .array(
+        z
+          .string()
+          .trim()
+          .min(1, "Constraint entries cannot be empty")
+          .max(60, "Constraint entries should be short")
+      )
+      .min(1)
+      .max(20)
+      .describe("Tickers or themes to avoid")
+      .optional(),
+    max_single_weight: z
+      .number()
+      .min(1)
+      .max(100)
+      .describe(
+        "Cap any single holding at a percentage of the total portfolio"
+      )
+      .optional()
+  })
+  .strict();
+
+const RiskTolerance = z
+  .enum(["low","medium","high"])
+  .describe("How much volatility the investor can stomach");
+
+const HorizonYears = z
+  .number()
+  .int()
+  .min(1)
+  .max(50)
+  .describe("Investment horizon in years");
+
+export const RecommendBody = z
+  .object({
+    objective: z
+      .string()
+      .trim()
+      .min(3)
+      .max(160)
+      .describe("User's investment objective"),
+    risk_tolerance: RiskTolerance.default("medium"),
+    horizon_years: HorizonYears.default(5),
+    constraints: RecommendConstraints.describe("Optional portfolio rules").optional()
+  })
+  .strict();
 
 export const Recommendation = z.object({
   version: z.literal("1"),

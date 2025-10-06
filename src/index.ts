@@ -99,7 +99,8 @@ docs.get("/docs", swaggerUI({ url: "/openapi.json" }));
 app.route("/", docs);
 
 export const config = {
-  runtime: "nodejs22.x"
+  runtime: "nodejs"
 };
 
 export default handle(app);
+export { app };

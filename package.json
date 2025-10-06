@@ -4,13 +4,14 @@
   "type": "module",
   "version": "0.1.0",
   "scripts": {
-    "dev": "vc dev",
+    "dev": "tsx src/dev.ts",
+    "vercel:dev": "vercel dev",
     "build": "echo 'Vercel builds functions per file; no bundling needed'",
-    "start": "vc dev",
+    "start": "tsx src/dev.ts",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@ai-sdk/google": "^1.0.0",
+    "@ai-sdk/google": "^2.0.17",
     "@hono/swagger-ui": "^0.4.0",
     "@hono/zod-openapi": "^0.16.0",
     "ai": "^5.0.0",
@@ -18,8 +19,15 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@hono/node-server": "^1.13.7",
     "@types/node": "^22.7.4",
-    "typescript": "^5.6.3"
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3",
+    "vercel": "^39.0.0"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "packageManager": "pnpm@9.12.2"
 }
